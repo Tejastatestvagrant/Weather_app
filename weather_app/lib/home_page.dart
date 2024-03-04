@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:weather_app/additional_info-item.dart';
+import 'package:weather_app/hourly_forecast_item.dart';
 import 'package:weather_app/secrets.dart';
 import 'package:intl/intl.dart';
 
@@ -103,11 +105,12 @@ class _HomePageState extends State<HomePage> {
           
           
                 final data = snapshot.data!;
-              final  curtemp=data['list'][0]['main']['temp'].toString();
-              final curhumidity=data['list'][0]['main']['temp'].toString();
-               final curpressure=data['list'][0]['main']['pressure'].toString();
-               final curwindspeed= data['list'][0]['wind']['speed'].toString();
-               final cursky = data['list'][0]['weather'][0]["main"].toString();
+                final cur = data['list'][0];
+              final  curtemp=cur['main']['temp'].toString();
+              final curhumidity=cur['main']['temp'].toString();
+               final curpressure=cur['main']['pressure'].toString();
+               final curwindspeed= cur['wind']['speed'].toString();
+               final cursky = cur['weather'][0]["main"].toString();
           
             return Padding(
               padding: const EdgeInsets.all(16.0),
@@ -238,99 +241,4 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class HourlyForecastItem extends StatelessWidget {
-  final String timevalue;
-  final IconData icon;
-  final String value;
 
-  const HourlyForecastItem(
-      {super.key,
-      required this.timevalue,
-      required this.icon,
-      required this.value});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 3,
-      child: SizedBox(
-        width: 120,
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            children: [
-              Text(
-                timevalue,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              
-              const SizedBox(
-                height: 8,
-              ),
-              Icon(
-                icon,
-                size: 38,
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Text(
-                value,
-                style: const TextStyle(fontSize: 19),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class AdditionalInfoItem extends StatelessWidget {
-  final IconData icon;
-  final String lable;
-  final String value;
-  const AdditionalInfoItem(
-      {super.key,
-      required this.icon,
-      required this.lable,
-      required this.value});
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: Card(
-        elevation: 0,
-        child: SizedBox(
-          width: 100,
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 9,
-              ),
-              Icon(
-                icon,
-                size: 31,
-              ),
-              const SizedBox(
-                height: 9,
-              ),
-              Text(lable),
-              const SizedBox(
-                height: 9,
-              ),
-              Text(
-                value,
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
