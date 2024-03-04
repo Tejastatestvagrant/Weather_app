@@ -1,9 +1,10 @@
-import 'package:intl/intl_browser.dart';
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:weather_app/secrets.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -54,19 +55,20 @@ class _HomePageState extends State<HomePage> {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           centerTitle: true,
-
           // if you need to add any icon use action property
           actions: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: InkWell(
+              child: IconButton(
                   // ignore: avoid_print
-                  onTap: () {
-                  
+                  onPressed: () {
+                    setState((){
+                       getCurrentWeather();
+                    });
+                    
                   },
-                  child: const Icon(
+                   icon: const  Icon(
                     Icons.refresh,
-                    textDirection: TextDirection.rtl,
                     size: 25,
                   )),
             )
@@ -189,11 +191,13 @@ class _HomePageState extends State<HomePage> {
                     height: 150,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                       itemCount: data['cnt'],
+                       itemCount: 5,
                        itemBuilder: (context,index){
                         final time = DateTime.parse(data['list'][index]['dt_txt']);
+  
+    
                        return HourlyForecastItem(
-                         timevalue: DateFormat('j').format(time),
+                         timevalue: DateFormat.j().format(time),
                          icon: data['list'][index]['weather'][0]['main']=='Clouds' || data['list'][index]['weather'][0]['main']=='Rain' ? Icons.cloud :Icons.sunny,
                     
                          value:data['list'][index]['main']['temp'].toString() ,
